@@ -286,8 +286,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   move: {fileID: -1375133501325586999, guid: 6aa434d7062fed745ac1ace459e9c19b, type: 3}
   cam: {fileID: 7511898943754589028, guid: 6aa434d7062fed745ac1ace459e9c19b, type: 3}
+  dash: {fileID: 3857060296624530107, guid: 6aa434d7062fed745ac1ace459e9c19b, type: 3}
   maxspeed: 10
   speedvect: 2
+  dashstr: 500
 --- !u!114 &439963047
 MonoBehaviour:
   m_ObjectHideFlags: 0
