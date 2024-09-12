@@ -33,6 +33,11 @@ public class projectilescript : MonoBehaviour
             transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
         }
 
+        if (direction == new Vector2(0f, 1f))
+        {
+            transform.eulerAngles = new Vector3(0f, 0f, -90f);
+        }
+
 
         Vector2 vel = GetComponent<Rigidbody>().velocity;
 

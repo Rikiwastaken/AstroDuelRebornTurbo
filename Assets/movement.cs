@@ -90,9 +90,13 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!move.IsPressed())
+
+        RB2D.angularVelocity = 0;
+
+        if (!move.IsPressed())
         {
             movementinput = Vector2.zero;
+            
         }
 
         if (!cam.IsPressed())
@@ -122,6 +126,12 @@ public class movement : MonoBehaviour
                 angleA = Mathf.Atan2(caminput.x, -caminput.y) * Mathf.Rad2Deg;
                 transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
             }
+
+            if(caminput == new Vector2(0f,1f))
+            {
+                transform.eulerAngles = new Vector3(0f, 0f, -90f);
+            }
+
             Dashfct(caminput);
             Gunfct(caminput);
 
@@ -134,6 +144,12 @@ public class movement : MonoBehaviour
                 angleA = Mathf.Atan2(movementinput.x, -movementinput.y) * Mathf.Rad2Deg;
                 transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
             }
+
+            if (movementinput == new Vector2(0f, 1f))
+            {
+                transform.eulerAngles = new Vector3(0f, 0f, -90f);
+            }
+
             Dashfct(movementinput);
             Gunfct(movementinput);
         }
