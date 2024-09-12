@@ -10,17 +10,23 @@ using UnityEngine.UIElements;
 public class movement : MonoBehaviour
 {
 
-    public InputActionReference move;
+    public InputActionAsset inputActions;
 
-    public InputActionReference cam;
+    private InputAction move;
 
-    public InputActionReference dash;
+    private InputAction cam;
+
+    private InputAction dash;
+
+    private InputAction gun;
 
     private Vector2 movementinput;
 
     private Vector2 caminput;
 
     private bool dashinput;
+
+    private bool guninput;
 
     public float maxspeed;
 
@@ -34,17 +40,49 @@ public class movement : MonoBehaviour
 
     private bool dashed;
 
+    private bool guned;
+
+    public GameObject projectileprefab;
+
+    private string playername;
+
     
 
 
     // Start is called before the first frame update
     void Start()
     {
-        move.action.performed += OnMovementChange;
 
-        cam.action.performed += OnCamChange;
+        GameObject[] playerlist = GameObject.FindGameObjectsWithTag(this.tag);
 
-        dash.action.performed += OnDashChange;
+        int ID = 1;
+
+        foreach (GameObject player in playerlist)
+        {
+            if(player!=this.gameObject)
+            {
+                ID++;
+            }
+        }
+
+        playername = "player"+ID;
+
+        move = inputActions.FindActionMap(playername).FindAction("move");
+
+        cam = inputActions.FindActionMap(playername).FindAction("camera");
+
+        gun = inputActions.FindActionMap(playername).FindAction("gun");
+
+        dash = inputActions.FindActionMap(playername).FindAction("dash");
+
+
+        move.performed += OnMovementChange;
+
+        cam.performed += OnCamChange;
+
+        dash.performed += OnDashChange;
+
+        gun.performed += OnGunChange;
 
         RB2D = GetComponent<Rigidbody2D>();
     }
@@ -52,23 +90,29 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!move.action.IsPressed())
+        if(!move.IsPressed())
         {
             movementinput = Vector2.zero;
         }
 
-        if (!cam.action.IsPressed())
+        if (!cam.IsPressed())
         {
             caminput = Vector2.zero;
         }
 
-        if (!dash.action.IsPressed())
+        if (!dash.IsPressed())
         {
             dashinput = false;
             dashed = false;
         }
 
-        
+        if (!gun.IsPressed())
+        {
+            guninput = false;
+            guned = false;
+        }
+
+
 
         if (caminput!=Vector2.zero)
         {
@@ -79,6 +123,7 @@ public class movement : MonoBehaviour
                 transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
             }
             Dashfct(caminput);
+            Gunfct(caminput);
 
         }
         else if(movementinput!=Vector2.zero)
@@ -90,10 +135,12 @@ public class movement : MonoBehaviour
                 transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
             }
             Dashfct(movementinput);
+            Gunfct(movementinput);
         }
         else
         {
             Dashfct(new Vector2(-transform.right.x,transform.right.y));
+            Gunfct(new Vector2(-transform.right.x, transform.right.y));
         }
 
         averagespeed = (float)(Mathf.Abs(RB2D.velocity.x) + Mathf.Abs(RB2D.velocity.y))/2f;
@@ -134,6 +181,18 @@ public class movement : MonoBehaviour
         }
     }
 
+    public void OnGunChange(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() != 0f)
+        {
+            guninput = true;
+        }
+        else
+        {
+            guninput = false;
+        }
+    }
+
     public void Dashfct(Vector2 dir)
     {
         if (dashinput && !dashed)
@@ -141,6 +200,17 @@ public class movement : MonoBehaviour
             RB2D.velocity=Vector2.zero;
             dashed = true;
             RB2D.AddForce(dir * dashstr);
+        }
+    }
+
+    public void Gunfct(Vector2 dir)
+    {
+        if (guninput && !guned)
+        {
+            GameObject newproj = Instantiate(projectileprefab,this.transform.position, Quaternion.identity);
+            guned = true;
+            newproj.GetComponent<projectilescript>().sender = this.gameObject;
+            newproj.GetComponent<projectilescript>().direction = dir;
         }
     }
 
