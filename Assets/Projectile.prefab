@@ -103,6 +103,7 @@ MonoBehaviour:
   sender: {fileID: 0}
   direction: {x: 0, y: 0}
   speed: 10
+  hitcolincr: 0.02
 --- !u!70 &6419370144179178232
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

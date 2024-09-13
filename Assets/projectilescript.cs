@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class projectilescript : MonoBehaviour
 {
@@ -11,11 +12,12 @@ public class projectilescript : MonoBehaviour
 
     public float speed;
 
+    private Tilemap tilemap;
+
+    public float hitcolincr;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-
-        Debug.Log(collision.gameObject.name);
 
         if(collision.gameObject != sender)
         {
@@ -27,6 +29,21 @@ public class projectilescript : MonoBehaviour
 
             if (collision.gameObject.tag == "decor")
             {
+
+                Vector3 hitPosition = Vector3.zero;
+                if (tilemap != null && tilemap.gameObject == collision.gameObject)
+                {
+                    ContactPoint2D[] contacts = collision.contacts;
+                    foreach (ContactPoint2D hit in contacts)
+                    {
+
+                        Vector3 newpoint = hit.point;
+                        tilemap.SetTile(tilemap.WorldToCell(newpoint),null);
+                        
+                    }
+                }
+
+
                 Destroy(this.gameObject);
             }
 
@@ -35,6 +52,10 @@ public class projectilescript : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        if (tilemap == null)
+        { tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>(); }
+
         GetComponent<Rigidbody2D>().velocity = direction*speed;
 
         
