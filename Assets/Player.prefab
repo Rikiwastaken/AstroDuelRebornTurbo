@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -106,7 +106,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 5307185714078801750, guid: 2a7c68a6f7d86c44a9ca1b809cf30511, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -130,11 +130,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f1b8bbc7f271994e8df5e6a47dd14c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 0
   inputActions: {fileID: -944628639613478452, guid: 6aa434d7062fed745ac1ace459e9c19b, type: 3}
-  maxspeed: 10
-  speedvect: 2
-  dashstr: 500
+  maxspeed: 5
+  speedvect: 1
+  dashstr: 250
   projectileprefab: {fileID: 8899171275567555566, guid: 56d8cc68e012fb44f81b2c9f79bd2e87, type: 3}
+  playername: 
 --- !u!114 &8768169414209913735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +223,6 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -1.443475, y: -0.04203899}
-  m_Size: {x: 13.057269, y: 10.086649}
+  m_Offset: {x: -1.0187701, y: -0.043640543}
+  m_Size: {x: 12.207882, y: 4.300934}
   m_Direction: 1

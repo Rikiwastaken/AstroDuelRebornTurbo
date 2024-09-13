@@ -12,17 +12,30 @@ public class projectilescript : MonoBehaviour
     public float speed;
 
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
+
+        Debug.Log(collision.gameObject.name);
+
         if(collision.gameObject != sender)
         {
-            Debug.Log("hit");
+
+            if(collision.gameObject.tag=="cadre")
+            {
+                Destroy(this.gameObject);
+            }
+
+            if (collision.gameObject.tag == "decor")
+            {
+                Destroy(this.gameObject);
+            }
+
         }
     }
 
     private void FixedUpdate()
     {
-        GetComponent<Rigidbody>().velocity = direction*speed;
+        GetComponent<Rigidbody2D>().velocity = direction*speed;
 
         
 
@@ -39,7 +52,7 @@ public class projectilescript : MonoBehaviour
         }
 
 
-        Vector2 vel = GetComponent<Rigidbody>().velocity;
+        Vector2 vel = GetComponent<Rigidbody2D>().velocity;
 
     }
 }

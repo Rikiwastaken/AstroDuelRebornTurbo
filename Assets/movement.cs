@@ -10,6 +10,8 @@ using UnityEngine.UIElements;
 public class movement : MonoBehaviour
 {
 
+    public int playerID;
+
     public InputActionAsset inputActions;
 
     private InputAction move;
@@ -44,15 +46,15 @@ public class movement : MonoBehaviour
 
     public GameObject projectileprefab;
 
-    private string playername;
+    public string playername;
 
-    
+    private bool initialize = true;
 
 
     // Start is called before the first frame update
-    void Start()
+    void Initialize()
     {
-
+        initialize = false;
         GameObject[] playerlist = GameObject.FindGameObjectsWithTag(this.tag);
 
         int ID = 1;
@@ -85,11 +87,17 @@ public class movement : MonoBehaviour
         gun.performed += OnGunChange;
 
         RB2D = GetComponent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+        if(initialize)
+        {
+            Initialize();
+        }
 
         RB2D.angularVelocity = 0;
 
@@ -177,6 +185,10 @@ public class movement : MonoBehaviour
 
     public void OnMovementChange(InputAction.CallbackContext context)
     {
+        if(playerID!=1)
+        {
+            Debug.Log("player2 moved");
+        }
         movementinput = context.ReadValue<Vector2>();
     }
 
