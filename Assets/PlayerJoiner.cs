@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,8 @@ public class PlayerJoiner : MonoBehaviour
     int LastID=1;
 
     bool activated;
+
+    public AnimatorController[] animators;
 
 
     public void JoinPlayer()
@@ -33,10 +36,16 @@ public class PlayerJoiner : MonoBehaviour
                     //obj.GetComponent<movement>().inputActions = inputActions;
 
                     obj.GetComponent<movement>().playerID = LastID;
+                    int rd = UnityEngine.Random.Range(0, animators.Length);
+                    obj.GetComponent<Animator>().runtimeAnimatorController = animators[rd];
                 }
             }
 
             LastID += 1;
+
+            
+            
+
         }
 
         

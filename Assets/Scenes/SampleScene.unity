@@ -1899,6 +1899,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: 6aa434d7062fed745ac1ace459e9c19b, type: 3}
   PlayerPrefab: {fileID: 4320438725185269904, guid: ce4df4ff383e3a44087e2005884876c5, type: 3}
+  animators:
+  - {fileID: 9100000, guid: 6a25651133f0e314c831c77e6662fe25, type: 2}
+  - {fileID: 9100000, guid: 243122df40731ae4dbde25b993d591e8, type: 2}
+  - {fileID: 9100000, guid: be33a7630d214f842b65bd5ea9cc2ffe, type: 2}
+  - {fileID: 9100000, guid: 269d03e7f4278694bbdf31b87b21d13e, type: 2}
+  - {fileID: 9100000, guid: 3ba08baf283eb1b4c877f0bc92066524, type: 2}
+  - {fileID: 9100000, guid: 7e36c792e4cf75e4287ac221cd1aa774, type: 2}
 --- !u!1 &1733582229
 GameObject:
   m_ObjectHideFlags: 0
