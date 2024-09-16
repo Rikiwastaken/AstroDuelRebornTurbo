@@ -16,17 +16,15 @@ public class projectilescript : MonoBehaviour
 
     public float hitcolincr;
 
+    public float timebeforeselfharm;
+
+    public int hitbounds;
+
     void OnCollisionEnter2D(Collision2D collision)
     {
 
         if(collision.gameObject != sender)
         {
-
-            if(collision.gameObject.tag=="cadre")
-            {
-                Destroy(this.gameObject);
-            }
-
             if (collision.gameObject.tag == "decor")
             {
 
@@ -47,11 +45,37 @@ public class projectilescript : MonoBehaviour
                 Destroy(this.gameObject);
             }
 
+            if(collision.transform.tag=="projectile")
+            {
+                Destroy(collision.transform.gameObject);
+                Destroy(this.gameObject);
+            }
+
+        }
+        else
+        {
+
+            if(timebeforeselfharm == 0)
+            {
+                Destroy(collision.gameObject);
+            }
+
+
+            Destroy(this.gameObject);
         }
     }
 
     private void FixedUpdate()
     {
+        if(GetComponent<CapsuleCollider2D>().isTrigger && Vector2.Distance(transform.position,sender.transform.position)>0.1f)
+        {
+            GetComponent<CapsuleCollider2D>().isTrigger = false;
+        }
+
+        if(timebeforeselfharm > 0)
+        {
+            timebeforeselfharm--;
+        }
 
         if (tilemap == null)
         { tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>(); }

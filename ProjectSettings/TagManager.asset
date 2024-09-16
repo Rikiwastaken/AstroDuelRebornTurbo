@@ -6,6 +6,7 @@ TagManager:
   tags:
   - cadre
   - decor
+  - projectile
   layers:
   - Default
   - TransparentFX

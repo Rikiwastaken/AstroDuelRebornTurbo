@@ -50,6 +50,8 @@ public class movement : MonoBehaviour
 
     private bool initialize = true;
 
+    public float timebeforeselfharm;
+
 
     // Start is called before the first frame update
     void Initialize()
@@ -239,6 +241,7 @@ public class movement : MonoBehaviour
             guned = true;
             newproj.GetComponent<projectilescript>().sender = this.gameObject;
             newproj.GetComponent<projectilescript>().direction = dir;
+            newproj.GetComponent<projectilescript>().timebeforeselfharm = (int)(timebeforeselfharm*Time.deltaTime);
         }
     }
 

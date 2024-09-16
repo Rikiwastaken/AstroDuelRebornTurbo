@@ -137,6 +137,7 @@ MonoBehaviour:
   dashstr: 250
   projectileprefab: {fileID: 8899171275567555566, guid: 56d8cc68e012fb44f81b2c9f79bd2e87, type: 3}
   playername: 
+  timebeforeselfharm: 3
 --- !u!114 &8768169414209913735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +178,7 @@ Animator:
   m_GameObject: {fileID: 4320438725185269904}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6a25651133f0e314c831c77e6662fe25, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2c10365daf11b2a42b541cee8cbd9720, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
