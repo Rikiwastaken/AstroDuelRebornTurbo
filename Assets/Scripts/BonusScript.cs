@@ -10,12 +10,18 @@ public class BonusScript : MonoBehaviour
 
     private bool showlife;
 
+    public GameObject[] bonuslist;
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.transform.tag=="Player")
         {
-            Debug.Log("bonus !");
+
+            int rd = Random.Range(0, bonuslist.Length);
+            collision.GetComponent<movement>().heldbonus=bonuslist[rd];
+
+
             Destroy(this.gameObject);
 
         }

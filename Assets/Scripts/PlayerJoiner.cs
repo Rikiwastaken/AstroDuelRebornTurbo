@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 public class PlayerJoiner : MonoBehaviour
 {
 
+    
+
     public InputActionAsset inputActions;
 
     public GameObject PlayerPrefab;
@@ -84,7 +86,9 @@ public class PlayerJoiner : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(activated)
+        Application.targetFrameRate = 60;
+
+        if (activated)
         {
             activated = false;
         }

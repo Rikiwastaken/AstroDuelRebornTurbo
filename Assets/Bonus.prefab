@@ -337,6 +337,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 3
+  bonuslist:
+  - {fileID: 3132438532583015976, guid: 6b87dfd7fe8d88f4f9b3461a994b853d, type: 3}
 --- !u!1 &5133404053369159724
 GameObject:
   m_ObjectHideFlags: 0

@@ -132,12 +132,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 0
   inputActions: {fileID: -944628639613478452, guid: 6aa434d7062fed745ac1ace459e9c19b, type: 3}
-  maxspeed: 5
-  speedvect: 1
-  dashstr: 250
+  maxspeed: 15
+  speedvect: 5
+  dashstr: 200
   projectileprefab: {fileID: 8899171275567555566, guid: 56d8cc68e012fb44f81b2c9f79bd2e87, type: 3}
   playername: 
   timebeforeselfharm: 3
+  heldbonus: {fileID: 0}
 --- !u!114 &8768169414209913735
 MonoBehaviour:
   m_ObjectHideFlags: 0

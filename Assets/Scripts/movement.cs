@@ -22,9 +22,13 @@ public class movement : MonoBehaviour
 
     private InputAction gun;
 
+    private InputAction special;
+
     private Vector2 movementinput;
 
     private Vector2 caminput;
+
+    private bool specialinput;
 
     private bool dashinput;
 
@@ -51,6 +55,8 @@ public class movement : MonoBehaviour
     private bool initialize = true;
 
     public float timebeforeselfharm;
+
+    public GameObject heldbonus;
 
 
     // Start is called before the first frame update
@@ -79,6 +85,7 @@ public class movement : MonoBehaviour
 
         dash = inputActions.FindActionMap(playername).FindAction("dash");
 
+        special = inputActions.FindActionMap(playername).FindAction("special");
 
         move.performed += OnMovementChange;
 
@@ -87,6 +94,8 @@ public class movement : MonoBehaviour
         dash.performed += OnDashChange;
 
         gun.performed += OnGunChange;
+
+        special.performed += OnSpecialChange;
 
         RB2D = GetComponent<Rigidbody2D>();
 
@@ -124,6 +133,16 @@ public class movement : MonoBehaviour
         {
             guninput = false;
             guned = false;
+        }
+
+        if (!special.IsPressed())
+        {
+            specialinput = false;
+        }
+
+        if(specialinput && heldbonus!=null)
+        {
+            UseSpecial();
         }
 
 
@@ -223,6 +242,18 @@ public class movement : MonoBehaviour
         }
     }
 
+    public void OnSpecialChange(InputAction.CallbackContext context)
+    {
+        if (context.ReadValue<float>() != 0f)
+        {
+            specialinput = true;
+        }
+        else
+        {
+            specialinput = false;
+        }
+    }
+
     public void Dashfct(Vector2 dir)
     {
         if (dashinput && !dashed)
@@ -243,6 +274,19 @@ public class movement : MonoBehaviour
             newproj.GetComponent<projectilescript>().direction = dir;
             newproj.GetComponent<projectilescript>().timebeforeselfharm = (int)(timebeforeselfharm*Time.deltaTime);
         }
+    }
+
+    void UseSpecial()
+    {
+
+        if (heldbonus.GetComponent<BigBomb>() != null)
+        {
+            GameObject newbomb = Instantiate(heldbonus,this.transform.position, Quaternion.identity);
+            newbomb.GetComponent<BigBomb>().timebeforedetonation = (int)(180);
+
+        }
+
+        heldbonus = null;
     }
 
 }
