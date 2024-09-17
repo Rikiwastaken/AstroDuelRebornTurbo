@@ -104,6 +104,16 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(heldbonus != null)
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+            transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = heldbonus.GetComponent<SpriteRenderer>().sprite;
+        }
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
         
         if(initialize)
         {
@@ -194,14 +204,7 @@ public class movement : MonoBehaviour
         {
             RB2D.AddForce(movementinput*speedvect);
         }
-        //if(movementinput.x==0)
-        //{
-        //    RB2D.velocity = new Vector2(RB2D.velocity.x/2,RB2D.velocity.y);
-        //}
-        //if (movementinput.y == 0)
-        //{
-        //    RB2D.velocity = new Vector2(RB2D.velocity.x, RB2D.velocity.y / 2);
-        //}
+
     }
 
     public void OnMovementChange(InputAction.CallbackContext context)

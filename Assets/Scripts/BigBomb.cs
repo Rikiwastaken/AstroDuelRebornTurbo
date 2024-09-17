@@ -20,35 +20,45 @@ public class BigBomb : MonoBehaviour
 
     private GameObject parent;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        
 
-        if (collision.gameObject.tag == "decor")
+        if(isexplosion)
         {
-
-            if (tilemap == null)
-            { tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>(); }
-
-            Vector3 hitPosition = Vector3.zero;
-            if (tilemap != null && tilemap.gameObject == collision.gameObject)
+            if (collision.gameObject.tag == "decor")
             {
-                Vector3 newpoint = collision.ClosestPoint(transform.position);
-                tilemap.SetTile(tilemap.WorldToCell(newpoint), null);
+
+                if (tilemap == null)
+                { tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>(); }
+                Debug.Log(tilemap);
+
+                Vector3 hitPosition = Vector3.zero;
+                if (tilemap != null && tilemap.gameObject == collision.gameObject)
+                {
+                    ContactPoint2D[] contacts = collision.contacts;
+                    foreach (ContactPoint2D hit in contacts)
+                    {
+
+                        Vector3 newpoint = hit.point;
+                        tilemap.SetTile(tilemap.WorldToCell(newpoint), null);
+
+                    }
+                }
+
             }
 
+            if (collision.transform.tag == "projectile")
+            {
+                Destroy(collision.transform.gameObject);
+            }
+
+            if (collision.transform.tag == "Player")
+            {
+                Destroy(collision.transform.gameObject);
+            }
         }
 
-        if (collision.transform.tag == "projectile")
-        {
-            Destroy(collision.transform.gameObject);
-        }
-
-        if(collision.transform.tag =="Player")
-        {
-            Destroy(collision.transform.gameObject);
-        }
-
+        
     }
 
     private void FixedUpdate()
