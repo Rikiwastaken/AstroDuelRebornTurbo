@@ -305,6 +305,27 @@ public class movement : MonoBehaviour
 
             }
 
+            if(heldbonus.GetComponent<Pusherscript>() != null)
+            {
+                GameObject newpusher = Instantiate(heldbonus, this.transform.position + (new Vector3(direction.x, direction.y, 0f)), Quaternion.identity);
+
+                direction = -direction;
+
+                float angleA = 0f;
+                if (Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg != 0)
+                {
+                    angleA = Mathf.Atan2(direction.x, -direction.y) * Mathf.Rad2Deg;
+                    newpusher.transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
+                }
+
+                if (direction == new Vector2(0f, 1f))
+                {
+                    newpusher.transform.eulerAngles = new Vector3(0f, 0f, -90f);
+                }
+
+                newpusher.GetComponent<Pusherscript>().direction = direction;
+            }
+
 
             heldbonus = null;
         }
