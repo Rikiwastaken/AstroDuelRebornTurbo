@@ -30,7 +30,6 @@ public class BigBomb : MonoBehaviour
 
                 if (tilemap == null)
                 { tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>(); }
-                Debug.Log(tilemap);
 
                 Vector3 hitPosition = Vector3.zero;
                 if (tilemap != null && tilemap.gameObject == collision.gameObject)
@@ -47,7 +46,7 @@ public class BigBomb : MonoBehaviour
 
             }
 
-            if (collision.transform.tag == "projectile")
+            if (collision.transform.tag == "projectile" || collision.transform.tag == "wallbonus")
             {
                 Destroy(collision.transform.gameObject);
             }

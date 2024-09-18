@@ -150,11 +150,6 @@ public class movement : MonoBehaviour
             specialinput = false;
         }
 
-        if(specialinput && heldbonus!=null)
-        {
-            UseSpecial();
-        }
-
 
 
         if (caminput!=Vector2.zero)
@@ -173,6 +168,7 @@ public class movement : MonoBehaviour
 
             Dashfct(caminput);
             Gunfct(caminput);
+            UseSpecial(caminput);
 
         }
         else if(movementinput!=Vector2.zero)
@@ -191,6 +187,7 @@ public class movement : MonoBehaviour
 
             Dashfct(movementinput);
             Gunfct(movementinput);
+            UseSpecial(movementinput);
         }
         else
         {
@@ -279,17 +276,40 @@ public class movement : MonoBehaviour
         }
     }
 
-    void UseSpecial()
+    void UseSpecial(Vector2 direction)
     {
-
-        if (heldbonus.GetComponent<BigBomb>() != null)
+        if (specialinput && heldbonus != null)
         {
-            GameObject newbomb = Instantiate(heldbonus,this.transform.position, Quaternion.identity);
-            newbomb.GetComponent<BigBomb>().timebeforedetonation = (int)(180);
+            if (heldbonus.GetComponent<BigBomb>() != null)
+            {
+                GameObject newbomb = Instantiate(heldbonus, this.transform.position+(new Vector3(direction.x, direction.y,0f)) / 5f, Quaternion.identity);
+                newbomb.GetComponent<BigBomb>().timebeforedetonation = (int)(180);
 
+            }
+
+            if (heldbonus.GetComponent<Wallbonusscript>() != null)
+            {
+                GameObject newwall = Instantiate(heldbonus, this.transform.position + (new Vector3(direction.x, direction.y, 0f)), Quaternion.identity);
+
+                float angleA = 0f;
+                if (Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg != 0)
+                {
+                    angleA = Mathf.Atan2(direction.x, -direction.y) * Mathf.Rad2Deg;
+                    newwall.transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
+                }
+
+                if (direction == new Vector2(0f, 1f))
+                {
+                    newwall.transform.eulerAngles = new Vector3(0f, 0f, -90f);
+                }
+
+            }
+
+
+            heldbonus = null;
         }
 
-        heldbonus = null;
+        
     }
 
 }

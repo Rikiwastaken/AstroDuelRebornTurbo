@@ -7,6 +7,7 @@ TagManager:
   - cadre
   - decor
   - projectile
+  - wallbonus
   layers:
   - Default
   - TransparentFX
