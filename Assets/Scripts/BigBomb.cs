@@ -46,7 +46,7 @@ public class BigBomb : MonoBehaviour
 
             }
 
-            if (collision.transform.tag == "projectile" || collision.transform.tag == "wallbonus")
+            if (collision.transform.tag == "projectile" || collision.transform.tag == "wallbonus" || (collision.transform.GetComponent<Pusherscript>() != null && collision.transform.parent == null))
             {
                 Destroy(collision.transform.gameObject);
             }

@@ -58,6 +58,8 @@ public class movement : MonoBehaviour
 
     public GameObject heldbonus;
 
+    public int immobilizationframes;
+
 
     // Start is called before the first frame update
     void Initialize()
@@ -108,7 +110,15 @@ public class movement : MonoBehaviour
         if(heldbonus != null)
         {
             transform.GetChild(0).gameObject.SetActive(true);
-            transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = heldbonus.GetComponent<SpriteRenderer>().sprite;
+            if(heldbonus.GetComponent<SpriteRenderer>())
+            {
+                transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = heldbonus.GetComponent<SpriteRenderer>().sprite;
+            }
+            else
+            {
+                transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = heldbonus.GetComponentInChildren<SpriteRenderer>().sprite;
+            }
+            
         }
         else
         {
@@ -200,6 +210,12 @@ public class movement : MonoBehaviour
         if(movementinput != null && averagespeed < maxspeed)
         {
             RB2D.AddForce(movementinput*speedvect);
+        }
+
+        if(immobilizationframes > 0)
+        {
+            immobilizationframes--;
+            RB2D.velocity=Vector2.zero;
         }
 
     }
@@ -324,6 +340,31 @@ public class movement : MonoBehaviour
                 }
 
                 newpusher.GetComponent<Pusherscript>().direction = direction;
+            }
+
+            if (heldbonus.GetComponent<megalaserbonus>() != null)
+            {
+                Vector3 position = this.transform.position + (new Vector3(direction.x, direction.y, 0f) / 6);
+                GameObject newlaser = Instantiate(heldbonus, position, Quaternion.identity);
+
+                direction = -direction;
+
+                float angleA = 0f;
+                if (Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg != 0)
+                {
+                    angleA = Mathf.Atan2(direction.x, -direction.y) * Mathf.Rad2Deg;
+                    newlaser.transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
+                }
+
+                if (direction == new Vector2(0f, 1f))
+                {
+                    newlaser.transform.eulerAngles = new Vector3(0f, 0f, -90f);
+                }
+
+                newlaser.GetComponent<megalaserbonus>().duration = 20;
+                immobilizationframes = newlaser.GetComponent<megalaserbonus>().duration;
+                newlaser.GetComponent<megalaserbonus>().sender = gameObject;
+                newlaser.GetComponent<megalaserbonus>().position = position;
             }
 
 

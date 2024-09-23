@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0}
-  pushstr: 1
+  pushstr: 2
   hp: 3
 --- !u!1 &3167241002573671977
 GameObject:
