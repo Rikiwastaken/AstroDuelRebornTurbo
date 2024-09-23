@@ -60,6 +60,10 @@ public class movement : MonoBehaviour
 
     public int immobilizationframes;
 
+    private Vector2 lastmovementinput;
+
+    public float dashlength;
+
 
     // Start is called before the first frame update
     void Initialize()
@@ -164,6 +168,8 @@ public class movement : MonoBehaviour
 
         if (caminput!=Vector2.zero)
         {
+            lastmovementinput = caminput;
+
             float angleA = 0f;
             if (Mathf.Atan2(caminput.x, caminput.y) * Mathf.Rad2Deg != 0)
             { 
@@ -183,6 +189,9 @@ public class movement : MonoBehaviour
         }
         else if(movementinput!=Vector2.zero)
         {
+
+            lastmovementinput=movementinput;
+
             float angleA = 0f;
             if (Mathf.Atan2(movementinput.x, movementinput.y) * Mathf.Rad2Deg != 0)
             {
@@ -201,8 +210,22 @@ public class movement : MonoBehaviour
         }
         else
         {
-            Dashfct(new Vector2(-transform.right.x,transform.right.y));
-            Gunfct(new Vector2(-transform.right.x, transform.right.y));
+            float angleA = 0f;
+            if (Mathf.Atan2(lastmovementinput.x, lastmovementinput.y) * Mathf.Rad2Deg != 0)
+            {
+                angleA = Mathf.Atan2(lastmovementinput.x, -lastmovementinput.y) * Mathf.Rad2Deg;
+                transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
+            }
+
+            if (lastmovementinput == new Vector2(0f, 1f))
+            {
+                transform.eulerAngles = new Vector3(0f, 0f, -90f);
+            }
+
+
+            Dashfct(lastmovementinput);
+            Gunfct(lastmovementinput);
+            UseSpecial(lastmovementinput);
         }
 
         averagespeed = (float)(Mathf.Abs(RB2D.velocity.x) + Mathf.Abs(RB2D.velocity.y))/2f;
@@ -277,6 +300,10 @@ public class movement : MonoBehaviour
             RB2D.velocity=Vector2.zero;
             dashed = true;
             RB2D.AddForce(dir * dashstr);
+            if(GetComponentInChildren<Dash>())
+            {
+                GetComponentInChildren<Dash>().dashtime = (int)(dashlength / Time.deltaTime);
+            }
         }
     }
 
@@ -346,6 +373,7 @@ public class movement : MonoBehaviour
             {
                 Vector3 position = this.transform.position + (new Vector3(direction.x, direction.y, 0f) / 6);
                 GameObject newlaser = Instantiate(heldbonus, position, Quaternion.identity);
+                
 
                 direction = -direction;
 
@@ -365,6 +393,7 @@ public class movement : MonoBehaviour
                 immobilizationframes = newlaser.GetComponent<megalaserbonus>().duration;
                 newlaser.GetComponent<megalaserbonus>().sender = gameObject;
                 newlaser.GetComponent<megalaserbonus>().position = position;
+                newlaser.transform.position = position;
             }
 
 

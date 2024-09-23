@@ -10,7 +10,7 @@ public class boundscript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.GetComponent<BigBomb>() == null && collision.GetComponent<Pusherscript>() == null)
+        if(collision.GetComponent<BigBomb>() == null && collision.GetComponent<Pusherscript>() == null && collision.GetComponent<Dash>()==null)
         {
             Displacement(collision);
         }

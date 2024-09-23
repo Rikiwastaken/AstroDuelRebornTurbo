@@ -30,10 +30,6 @@ public class Pusherscript : MonoBehaviour
             Destroy(collision.gameObject);
 
             hp--;
-            if (hp <= 0)
-            {
-                Destroy(this.gameObject);
-            }
         }
     }
 
@@ -50,6 +46,10 @@ public class Pusherscript : MonoBehaviour
             {
                 transform.GetChild(0).gameObject.SetActive(true);
                 GetComponentInChildren<Slider>().value = hp;
+            }
+            if (hp <= 0)
+            {
+                Destroy(this.gameObject);
             }
         }
     }

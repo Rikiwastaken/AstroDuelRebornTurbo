@@ -12,6 +12,8 @@ public class BonusScript : MonoBehaviour
 
     public GameObject[] bonuslist;
 
+    public int cooldown;
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,7 +24,8 @@ public class BonusScript : MonoBehaviour
             collision.GetComponent<movement>().heldbonus=bonuslist[rd];
 
 
-            Destroy(this.gameObject);
+
+            cooldown = (int)(30/Time.deltaTime);
 
         }
         if(collision.transform.tag=="projectile")
@@ -33,7 +36,7 @@ public class BonusScript : MonoBehaviour
             hp--;
             if(hp <= 0)
             {
-                Destroy(this.gameObject);
+                cooldown = (int)(30 / Time.deltaTime);
             }
         }
     }
@@ -45,6 +48,22 @@ public class BonusScript : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(true);
             GetComponentInChildren<Slider>().value = hp;
         }
+
+        if(cooldown > 0)
+        {
+            showlife=false;
+            transform.GetChild(0).gameObject.SetActive(false);
+            hp = 3;
+            cooldown--;
+            GetComponent<Collider2D>().enabled = false;
+            GetComponent<SpriteRenderer>().enabled = false;
+        }
+        else
+        {
+            GetComponent<Collider2D>().enabled = true;
+            GetComponent<SpriteRenderer>().enabled = true;
+        }
+
     }
 
 }

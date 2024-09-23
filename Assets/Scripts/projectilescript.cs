@@ -51,6 +51,14 @@ public class projectilescript : MonoBehaviour
                 Destroy(this.gameObject);
             }
 
+            if(collision.transform.tag =="Player")
+            {
+                Destroy(collision.transform.gameObject);
+                Destroy(this.gameObject);
+            }
+
+            
+
         }
         else
         {
