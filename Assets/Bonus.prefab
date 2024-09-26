@@ -338,7 +338,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 3
   bonuslist:
-  - {fileID: 7686993854451676058, guid: 9c4c669d73ca09840b4217fc796cc7b1, type: 3}
+  - {fileID: 3132438532583015976, guid: 007bec08d514ec94096770b0e0d9eb8b, type: 3}
+  cooldown: 0
 --- !u!1 &5133404053369159724
 GameObject:
   m_ObjectHideFlags: 0

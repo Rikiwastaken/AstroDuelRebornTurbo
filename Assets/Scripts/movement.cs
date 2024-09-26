@@ -64,6 +64,8 @@ public class movement : MonoBehaviour
 
     public float dashlength;
 
+    public int dashtime;
+
 
     // Start is called before the first frame update
     void Initialize()
@@ -110,6 +112,8 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        
 
         if(heldbonus != null)
         {
@@ -164,73 +168,76 @@ public class movement : MonoBehaviour
             specialinput = false;
         }
 
-
-
-        if (caminput!=Vector2.zero)
+        if ( dashtime == 0)
         {
-            lastmovementinput = caminput;
-
-            float angleA = 0f;
-            if (Mathf.Atan2(caminput.x, caminput.y) * Mathf.Rad2Deg != 0)
-            { 
-                angleA = Mathf.Atan2(caminput.x, -caminput.y) * Mathf.Rad2Deg;
-                transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
-            }
-
-            if(caminput == new Vector2(0f,1f))
+            if (caminput != Vector2.zero)
             {
-                transform.eulerAngles = new Vector3(0f, 0f, -90f);
+                lastmovementinput = caminput;
+
+                float angleA = 0f;
+                if (Mathf.Atan2(caminput.x, caminput.y) * Mathf.Rad2Deg != 0)
+                {
+                    angleA = Mathf.Atan2(caminput.x, -caminput.y) * Mathf.Rad2Deg;
+                    transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
+                }
+
+                if (caminput == new Vector2(0f, 1f))
+                {
+                    transform.eulerAngles = new Vector3(0f, 0f, -90f);
+                }
+
+                Dashfct(caminput);
+                Gunfct(caminput);
+                UseSpecial(caminput);
+
             }
+            else if (movementinput != Vector2.zero)
+            {
 
-            Dashfct(caminput);
-            Gunfct(caminput);
-            UseSpecial(caminput);
+                lastmovementinput = movementinput;
 
+                float angleA = 0f;
+                if (Mathf.Atan2(movementinput.x, movementinput.y) * Mathf.Rad2Deg != 0)
+                {
+                    angleA = Mathf.Atan2(movementinput.x, -movementinput.y) * Mathf.Rad2Deg;
+                    transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
+                }
+
+                if (movementinput == new Vector2(0f, 1f))
+                {
+                    transform.eulerAngles = new Vector3(0f, 0f, -90f);
+                }
+
+                Dashfct(movementinput);
+                Gunfct(movementinput);
+                UseSpecial(movementinput);
+            }
+            else
+            {
+                float angleA = 0f;
+                if (Mathf.Atan2(lastmovementinput.x, lastmovementinput.y) * Mathf.Rad2Deg != 0)
+                {
+                    angleA = Mathf.Atan2(lastmovementinput.x, -lastmovementinput.y) * Mathf.Rad2Deg;
+                    transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
+                }
+
+                if (lastmovementinput == new Vector2(0f, 1f))
+                {
+                    transform.eulerAngles = new Vector3(0f, 0f, -90f);
+                }
+
+
+                Dashfct(lastmovementinput);
+                Gunfct(lastmovementinput);
+                UseSpecial(lastmovementinput);
+            }
         }
-        else if(movementinput!=Vector2.zero)
-        {
 
-            lastmovementinput=movementinput;
-
-            float angleA = 0f;
-            if (Mathf.Atan2(movementinput.x, movementinput.y) * Mathf.Rad2Deg != 0)
-            {
-                angleA = Mathf.Atan2(movementinput.x, -movementinput.y) * Mathf.Rad2Deg;
-                transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
-            }
-
-            if (movementinput == new Vector2(0f, 1f))
-            {
-                transform.eulerAngles = new Vector3(0f, 0f, -90f);
-            }
-
-            Dashfct(movementinput);
-            Gunfct(movementinput);
-            UseSpecial(movementinput);
-        }
-        else
-        {
-            float angleA = 0f;
-            if (Mathf.Atan2(lastmovementinput.x, lastmovementinput.y) * Mathf.Rad2Deg != 0)
-            {
-                angleA = Mathf.Atan2(lastmovementinput.x, -lastmovementinput.y) * Mathf.Rad2Deg;
-                transform.eulerAngles = new Vector3(0f, 0f, angleA + 90);
-            }
-
-            if (lastmovementinput == new Vector2(0f, 1f))
-            {
-                transform.eulerAngles = new Vector3(0f, 0f, -90f);
-            }
-
-
-            Dashfct(lastmovementinput);
-            Gunfct(lastmovementinput);
-            UseSpecial(lastmovementinput);
-        }
+        
 
         averagespeed = (float)(Mathf.Abs(RB2D.velocity.x) + Mathf.Abs(RB2D.velocity.y))/2f;
 
-        if(movementinput != null && averagespeed < maxspeed)
+        if(movementinput != null && averagespeed < maxspeed && dashtime == 0)
         {
             RB2D.AddForce(movementinput*speedvect);
         }
@@ -239,7 +246,22 @@ public class movement : MonoBehaviour
         {
             immobilizationframes--;
             RB2D.velocity=Vector2.zero;
+            Color color = new Color(0.6f, 0.6f, 0.6f, 1f);
+            GetComponent<SpriteRenderer>().color = color;
+            transform.GetChild(2).gameObject.SetActive(true);
         }
+        else
+        {
+            Color color = new Color(1f, 1f, 1f, 1f);
+            GetComponent<SpriteRenderer>().color = color;
+            transform.GetChild(2).gameObject.SetActive(false);
+        }
+
+        if (dashtime > 0)
+        {
+            dashtime--;
+        }
+
 
     }
 
@@ -295,21 +317,18 @@ public class movement : MonoBehaviour
 
     public void Dashfct(Vector2 dir)
     {
-        if (dashinput && !dashed)
+        if (dashinput && !dashed && dashtime==0)
         {
             RB2D.velocity=Vector2.zero;
             dashed = true;
             RB2D.AddForce(dir * dashstr);
-            if(GetComponentInChildren<Dash>())
-            {
-                GetComponentInChildren<Dash>().dashtime = (int)(dashlength / Time.deltaTime);
-            }
+            dashtime = (int)(dashlength / Time.deltaTime);
         }
     }
 
     public void Gunfct(Vector2 dir)
     {
-        if (guninput && !guned)
+        if (guninput && !guned && dashtime == 0)
         {
             GameObject newproj = Instantiate(projectileprefab,this.transform.position, Quaternion.identity);
             guned = true;
@@ -321,13 +340,20 @@ public class movement : MonoBehaviour
 
     void UseSpecial(Vector2 direction)
     {
-        if (specialinput && heldbonus != null)
+        if (specialinput && heldbonus != null && dashtime == 0)
         {
             if (heldbonus.GetComponent<BigBomb>() != null)
             {
                 GameObject newbomb = Instantiate(heldbonus, this.transform.position+(new Vector3(direction.x, direction.y,0f)) / 5f, Quaternion.identity);
                 newbomb.GetComponent<BigBomb>().timebeforedetonation = (int)(180);
 
+            }
+
+            if (heldbonus.GetComponent<MagBomb>() != null)
+            {
+                GameObject newbomb = Instantiate(heldbonus, this.transform.position + (new Vector3(direction.x, direction.y, 0f)) / 5f, Quaternion.identity);
+                newbomb.GetComponent<MagBomb>().timebeforedetonation = (int)(60);
+                newbomb.GetComponent<MagBomb>().sender = transform.gameObject;
             }
 
             if (heldbonus.GetComponent<Wallbonusscript>() != null)

@@ -5,15 +5,17 @@ using UnityEngine.Tilemaps;
 
 public class Dash : MonoBehaviour
 {
-    public int dashtime;
+    private int dashtime;
 
     private Tilemap tilemap;
 
     private void FixedUpdate()
     {
+
+        dashtime = GetComponentInParent<movement>().dashtime;
+
         if(dashtime > 0)
         {
-            dashtime--;
             GetComponent<SpriteRenderer>().enabled = true;
             GetComponent<CapsuleCollider2D>().enabled = true;
         }
